@@ -68,4 +68,4 @@ clean-dev:
 # Tests
 test:
 	./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml
-# ./vendor/phpunit/phpunit/phpunit -c ./tests/phpunit.integration.xml
+	./vendor/phpunit/phpunit/phpunit -c ./tests/phpunit.integration.xml
