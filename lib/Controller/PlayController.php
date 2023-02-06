@@ -3,13 +3,12 @@
 namespace OCA\Nbb\Controller;
 
 use OCA\Nbb\AppInfo\Application;
-use OCA\Nbb\Service\PlayService;
+use OCA\Nbb\Service\NbbService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 
 class PlayController extends Controller {
-	/** @var PlayService */
 	private $service;
 
 	/** @var string */
@@ -18,7 +17,7 @@ class PlayController extends Controller {
 	use Errors;
 
 	public function __construct(IRequest $request,
-		PlayService $service,
+		NbbService $service,
 		$userId) {
 		parent::__construct(Application::APP_ID, $request);
 		$this->service = $service;
@@ -29,7 +28,7 @@ class PlayController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function index(): DataResponse {
-		return new DataResponse($this->service->findAll($this->userId));
+		return new DataResponse($this->service->findAllPlays($this->userId));
 	}
 
 	/**
@@ -37,7 +36,7 @@ class PlayController extends Controller {
 	 */
 	public function show(int $id): DataResponse {
 		return $this->handleNotFound(function () use ($id) {
-			return $this->service->find($id, $this->userId);
+			return $this->service->findPlay($id, $this->userId);
 		});
 	}
 
@@ -45,8 +44,8 @@ class PlayController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function create(string $title, string $description): DataResponse {
-		return new DataResponse($this->service->create($title, $description,
-			$this->userId));
+		return new DataResponse($this->service->createPlay($title, $description,
+			$archived, $this->userId));
 	}
 
 	/**
@@ -55,7 +54,16 @@ class PlayController extends Controller {
 	public function update(int $id, string $title,
 		string $description): DataResponse {
 		return $this->handleNotFound(function () use ($id, $title, $description) {
-			return $this->service->update($id, $title, $description, $this->userId);
+			return $this->service->updatePlay($id, $title, $description, $this->userId);
+		});
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function archive(int $id): DataResponse {
+		return $this->handleNotFound(function () use ($id) {
+			return $this->service->toggleArchivedPlay($id, $this->userId);
 		});
 	}
 
@@ -64,7 +72,7 @@ class PlayController extends Controller {
 	 */
 	public function destroy(int $id): DataResponse {
 		return $this->handleNotFound(function () use ($id) {
-			return $this->service->delete($id, $this->userId);
+			return $this->service->deletePlay($id, $this->userId);
 		});
 	}
 }

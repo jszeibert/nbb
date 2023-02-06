@@ -10,7 +10,7 @@ use OCP\IDBConnection;
 
 class PlayMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'nbb', Play::class);
+		parent::__construct($db, 'nbb_plays', Play::class);
 	}
 
 	/**
@@ -24,7 +24,7 @@ class PlayMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from('nbb')
+			->from('nbb_plays')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
 		return $this->findEntity($qb);
@@ -38,7 +38,7 @@ class PlayMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from('nbb')
+			->from('nbb_plays')
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
 		return $this->findEntities($qb);
 	}

@@ -1,7 +1,7 @@
 {
   "name": "nbb",
   "description": "This is a custom app for the theatre management of the Neue Buehne Bruck in Fuerstenfeldbruck",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Johannes Szeibert <johannes@szeibert.de",
   "contributors": [ ],
   "bugs": {

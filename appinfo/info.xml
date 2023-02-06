@@ -5,7 +5,7 @@
     <name>NBB App</name>
     <summary>This is a custom app for the theatre management of the Neue Buehne Bruck in Fuerstenfeldbruck</summary>
     <description><![CDATA[This is a custom app for the theatre management of the Neue Buehne Bruck in Fuerstenfeldbruck]]></description>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <licence>agpl</licence>
     <author mail="johannes@szeibert.de" >Johannes Szeibert</author>
     <namespace>Nbb</namespace>

@@ -10,16 +10,16 @@ use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCA\Nbb\Db\Play;
 use OCA\Nbb\Db\PlayMapper;
 
-class PlayService {
+class NbbService {
 	/** @var PlayMapper */
-	private $mapper;
+	private $playMapper;
 
-	public function __construct(PlayMapper $mapper) {
-		$this->mapper = $mapper;
+	public function __construct(PlayMapper $playMapper) {
+		$this->playMapper = $playMapper;
 	}
 
 	public function findAll(string $userId): array {
-		return $this->mapper->findAll($userId);
+		return $this->playMapper->findAll($userId);
 	}
 
 	private function handleException(Exception $e): void {
@@ -33,36 +33,47 @@ class PlayService {
 
 	public function find($id, $userId) {
 		try {
-			return $this->mapper->find($id, $userId);
+			return $this->playMapper->find($id, $userId);
 		} catch (Exception $e) {
 			$this->handleException($e);
 		}
 	}
 
-	public function create($title, $description, $userId) {
+	public function createPlay($title, $description, $userId) {
 		$play = new Play();
 		$play->setTitle($title);
 		$play->setDescription($description);
+		$play->setArchived(false);
 		$play->setUserId($userId);
-		return $this->mapper->insert($play);
+		return $this->playMapper->insert($play);
 	}
 
-	public function update($id, $title, $description, $userId) {
+	public function updatePlay($id, $title, $description, $userId) {
 		try {
-			$play = $this->mapper->find($id, $userId);
+			$play = $this->playMapper->find($id, $userId);
 			$play->setTitle($title);
 			$play->setDescription($description);
-			return $this->mapper->update($play);
+			return $this->playMapper->update($play);
 		} catch (Exception $e) {
 			$this->handleException($e);
 		}
 	}
 
-	public function delete($id, $userId) {
+	public function deletePlay($id, $userId) {
 		try {
-			$play = $this->mapper->find($id, $userId);
-			$this->mapper->delete($play);
+			$play = $this->playMapper->find($id, $userId);
+			$this->playMapper->delete($play);
 			return $play;
+		} catch (Exception $e) {
+			$this->handleException($e);
+		}
+	}
+
+	public function toggleArchivedPlay($id, $userId) {
+		try {
+			$play = $this->playMapper->find($id, $userId);
+			$play->setArchived(!$play->archived);
+			return $this->playMapper->update($play);
 		} catch (Exception $e) {
 			$this->handleException($e);
 		}
