@@ -29,7 +29,7 @@
     "@nextcloud/dialogs": "^3.2.0",
     "@nextcloud/router": "^2.0.1",
     "@nextcloud/vue": "^7.5.0",
-    "vue-router": "^3.6.5",
+    "vue-router": "^4.1.6",
     "vue": "^3.2.47"
   },
   "browserslist": [
